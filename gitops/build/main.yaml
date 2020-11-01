@@ -109,7 +109,7 @@ stages:
               chmod +x horusec
               mv horusec /tmp
               # Run
-              docker --version
+              docker version -f '{{json .}}' | jq
               /tmp/horusec start -p="./" -e="true"
             displayName: Code scan
             continueOnError: ${{ parameters.codeScan.ignoreRuleViolations }}
