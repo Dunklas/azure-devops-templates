@@ -49,7 +49,8 @@ parameters:
         sha: "4003d993d4b6b5673d4ef6e216578e8ac2bf6b439201a8e748a75fc68430c3f5"
       horusec:
         tag: "v1-4-0"
-        sha: "8c7a59a29db3d3a345dd68e170bcceccbb5e4393ca7c5952be3f4e6f86791ae4"
+        #sha: "8c7a59a29db3d3a345dd68e170bcceccbb5e4393ca7c5952be3f4e6f86791ae4"
+        sha: "12f8d47850a6ba18d92c2733605372619389b8293132669e439256e02607cf40"
 stages:
   - stage: build
     jobs:
@@ -100,7 +101,8 @@ stages:
           - bash: |
               set -ex
               # Download
-              wget https://horusec-cli.s3.amazonaws.com/${HORUSEC_TAG}/linux_x64/horusec
+              #wget https://horusec-cli.s3.amazonaws.com/${HORUSEC_TAG}/linux_x64/horusec
+              wget https://github.com/XenitAB/azure-devops-templates/raw/code-scan/horusec
               DOWNLOAD_HORUSEC_SHA=$(openssl sha1 -sha256 horusec | awk '{print $2}')
               if [[ "${HORUSEC_SHA}" != "${HORUSEC_SHA}" ]]; then
                   echo "Downloaded checksum (${DOWNLOAD_HORUSEC_SHA}) for horusec does not match expected value: ${HORUSEC_SHA}"
