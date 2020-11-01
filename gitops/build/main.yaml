@@ -33,6 +33,11 @@ parameters:
     default:
       enable: true
       ignoreRuleViolations: true
+  - name: codeScan
+    type: object
+    default:
+      enable: true
+      ignoreRuleViolations: true
   - name: binaries
     type: object
     default:
@@ -42,6 +47,9 @@ parameters:
       trivy:
         tag: "v0.12.0"
         sha: "4003d993d4b6b5673d4ef6e216578e8ac2bf6b439201a8e748a75fc68430c3f5"
+      horusec:
+        tag: "v1-4-0"
+        sha: "8c7a59a29db3d3a345dd68e170bcceccbb5e4393ca7c5952be3f4e6f86791ae4"
 stages:
   - stage: build
     jobs:
@@ -89,6 +97,29 @@ stages:
               condition: and(succeeded(), eq(${{ parameters.dockerLint.enable }}, true), eq(variables['Build.sourceBranch'], '${{ parameters.sourceBranch }}'))
             ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
               condition: and(succeeded(), eq(${{ parameters.dockerLint.enable }}, true))
+          - bash: |
+              set -ex
+              # Download
+              wget https://horusec-cli.s3.amazonaws.com/${HORUSEC_TAG}/linux_x64/horusec
+              DOWNLOAD_HORUSEC_SHA=$(openssl sha1 -sha256 horusec | awk '{print $2}')
+              if [[ "${HORUSEC_SHA}" != "${HORUSEC_SHA}" ]]; then
+                  echo "Downloaded checksum (${DOWNLOAD_HORUSEC_SHA}) for horusec does not match expected value: ${HORUSEC_SHA}"
+                  exit 1
+              fi
+              chmod +x horusec
+              mv horusec /usr/bin
+              # Run
+              horusec start -p="./" -e="true"
+            displayName: Code scan
+            continueOnError: ${{ parameters.codeScan.ignoreRuleViolations }}
+            env:
+              HORUSEC_TAG: ${{ parameters.binaries.horusec.tag }}
+              HORUSEC_SHA: ${{ parameters.binaries.horusec.sha }}
+            # IF needed to apply different conditions if pull request or not
+            ${{ if not(eq(variables['Build.Reason'], 'PullRequest')) }}:
+              condition: and(succeeded(), eq(${{ parameters.codeScan.enable }}, true), eq(variables['Build.sourceBranch'], '${{ parameters.sourceBranch }}'))
+            ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+              condition: and(succeeded(), eq(${{ parameters.codeScan.enable }}, true))
           - bash: |
               set -ex
               docker build -f ${DOCKERFILE_PATH} ${DOCKER_BUILD_ARGS} -t ${IMAGE_ID} ${DOCKER_BUILD_ARGS} .
