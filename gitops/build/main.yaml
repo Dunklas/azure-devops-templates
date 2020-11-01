@@ -50,7 +50,7 @@ parameters:
       horusec:
         tag: "v1-4-0"
         #sha: "8c7a59a29db3d3a345dd68e170bcceccbb5e4393ca7c5952be3f4e6f86791ae4"
-        sha: "12f8d47850a6ba18d92c2733605372619389b8293132669e439256e02607cf40"
+        sha: "426d4fe0a7a48d225eef1250a686bec466bdd8204a462c567c3e158219eea1d4"
 stages:
   - stage: build
     jobs:
