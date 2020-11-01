@@ -109,6 +109,7 @@ stages:
               chmod +x horusec
               mv horusec /usr/bin
               # Run
+              docker --version
               horusec start -p="./" -e="true"
             displayName: Code scan
             continueOnError: ${{ parameters.codeScan.ignoreRuleViolations }}
