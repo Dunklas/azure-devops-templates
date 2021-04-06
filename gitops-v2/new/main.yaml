@@ -47,14 +47,14 @@ stages:
               acrName: ${{ format(parameters.acrNameTemplate, env.name) }}
               imagePathPrefix: ${{ parameters.imagePathPrefix }}
 
-  - stage: new
-    jobs:
-      - template: new.yaml
-        parameters:
-          poolVmImage: ${{ parameters.poolVmImage }}
-          poolName: ${{ parameters.poolName }}
-          gitopsPromotionTag: ${{ parameters.gitopsPromotionTag }}
-          group: ${{ parameters.group }}
-          app: ${{ parameters.app }}
-          tag: ${{ parameters.tag }}
-
+              #  - stage: new
+              #    jobs:
+              #      - template: new.yaml
+              #        parameters:
+              #          poolVmImage: ${{ parameters.poolVmImage }}
+              #          poolName: ${{ parameters.poolName }}
+              #          gitopsPromotionTag: ${{ parameters.gitopsPromotionTag }}
+              #          group: ${{ parameters.group }}
+              #          app: ${{ parameters.app }}
+              #          tag: ${{ parameters.tag }}
+              #
