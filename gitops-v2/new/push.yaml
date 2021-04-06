@@ -13,11 +13,11 @@ jobs:
   - job: push_${{ parameters.environment }}
     condition: and(succeeded(), eq(variables['resources.pipeline.ciPipeline.sourceBranch'], '${{ parameters.sourceBranch }}'))
     displayName: Push image to ${{ parameters.environment }}
-    pool:
-      ${{ if not(eq(parameters.poolName, '')) }}:
-        name: ${{ parameters.poolName }}
-      ${{ if not(eq(parameters.poolVmImage, '')) }}:
-        vmImage: ${{ parameters.poolVmImage }}
+    #pool:
+    #  ${{ if not(eq(parameters.poolName, '')) }}:
+    #    name: ${{ parameters.poolName }}
+    #  ${{ if not(eq(parameters.poolVmImage, '')) }}:
+    #    vmImage: ${{ parameters.poolVmImage }}
     continueOnError: false
     steps:
       - bash: |
@@ -82,11 +82,11 @@ jobs:
   - job: verify_push_${{ parameters.environment }}
     condition: and(succeeded(), ne(variables['resources.pipeline.ciPipeline.sourceBranch'], '${{ parameters.sourceBranch }}'))
     displayName: Verify image is in ${{ parameters.environment }} ACR
-    pool:
-      ${{ if not(eq(parameters.poolName, '')) }}:
-        name: ${{ parameters.poolName }}
-      ${{ if not(eq(parameters.poolVmImage, '')) }}:
-        vmImage: ${{ parameters.poolVmImage }}
+    #pool:
+    #  ${{ if not(eq(parameters.poolName, '')) }}:
+    #    name: ${{ parameters.poolName }}
+    #  ${{ if not(eq(parameters.poolVmImage, '')) }}:
+    #    vmImage: ${{ parameters.poolVmImage }}
     continueOnError: false
     steps:
       - bash: |
