@@ -36,16 +36,16 @@ stages:
   - stage: push
     jobs:
       - ${{ each env in parameters.environments }}:
-          - template: push.yaml
-            parameters:
-              poolVmImage: ${{ parameters.poolVmImage }}
-              poolName: ${{ parameters.poolName }}
-              sourceBranch: ${{ parameters.sourceBranch }}
-              environment: ${{ env.name }}
-              serviceName: ${{ parameters.serviceName }}
-              azureSubscription: ${{ format(parameters.azureSubscriptionTemplate, env.name) }}
-              acrName: ${{ format(parameters.acrNameTemplate, env.name) }}
-              imagePathPrefix: ${{ parameters.imagePathPrefix }}
+        - template: push.yaml
+          parameters:
+            poolVmImage: ${{ parameters.poolVmImage }}
+            poolName: ${{ parameters.poolName }}
+            sourceBranch: ${{ parameters.sourceBranch }}
+            environment: ${{ env.name }}
+            serviceName: ${{ parameters.serviceName }}
+            azureSubscription: ${{ format(parameters.azureSubscriptionTemplate, env.name) }}
+            acrName: ${{ format(parameters.acrNameTemplate, env.name) }}
+            imagePathPrefix: ${{ parameters.imagePathPrefix }}
 
               #  - stage: new
               #    jobs:
