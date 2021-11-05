@@ -6,7 +6,7 @@ on:
       runs-on:
         type: string
         required: false
-        default: '["ubuntu-latest"]'
+        default: '["self-hosted", "linux", "xks"]'
       opa_blast_radius:
         description: 'OPA Blast Radius'
         required: false
