@@ -34,7 +34,7 @@ jobs:
   set_env_matrix:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
-    runs-on: ["self-hosted", "linux", "xks"]
+    runs-on: [self-hosted, linux, xks]
     steps:
       - name: Set matrix for environment
         id: set-matrix
@@ -49,7 +49,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{fromJson(needs.set_env_matrix.outputs.matrix)}}
-    runs-on: ["self-hosted", "linux", "xks"]
+    runs-on: [self-hosted, linux, xks]
     steps:
       - name: Create Azure credentials secret name
         id: creds_env
@@ -123,7 +123,7 @@ jobs:
       max-parallel: 1
       matrix: ${{fromJson(needs.set_env_matrix.outputs.matrix)}}
     if: github.event_name != 'pull_request'
-    runs-on: ["self-hosted", "linux", "xks"]
+    runs-on: [self-hosted, linux, xks]
     steps:
       - name: Create Azure credentials secret name
         id: creds_env
